@@ -31,6 +31,9 @@ const (
 )
 
 var (
+	ErrDrainDeleteConflict           = fmt.Errorf("spec.drain cannot specify both deleteEmptydirData and deleteLocalData")
+	ErrDrainPodSelectorNotSelectable = fmt.Errorf("spec.drain.podSelector is not selectable")
+
 	PollingInterval = func(defaultValue time.Duration) time.Duration {
 		if str, ok := os.LookupEnv("SYSTEM_UPGRADE_PLAN_POLLING_INTERVAL"); ok {
 			if d, err := time.ParseDuration(str); err != nil {
@@ -227,4 +230,23 @@ func sha256sum(s ...string) string {
 		h.Write([]byte(s[i]))
 	}
 	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+// Validate performs validation of the plan spec, raising errors for any conflicting or invalid settings.
+func Validate(plan *upgradeapiv1.Plan) error {
+	if drainSpec := plan.Spec.Drain; drainSpec != nil {
+		if drainSpec.DeleteEmptydirData != nil && drainSpec.DeleteLocalData != nil {
+			return ErrDrainDeleteConflict
+		}
+		if drainSpec.PodSelector != nil {
+			selector, err := metav1.LabelSelectorAsSelector(drainSpec.PodSelector)
+			if err != nil {
+				return err
+			}
+			if _, ok := selector.Requirements(); !ok {
+				return ErrDrainPodSelectorNotSelectable
+			}
+		}
+	}
+	return nil
 }
