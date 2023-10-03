@@ -17,13 +17,14 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/selection"
 )
 
 const (
 	defaultBackoffLimit            = int32(2)
 	defaultActiveDeadlineSeconds   = int64(0)
 	defaultPrivileged              = true
-	defaultKubectlImage            = "rancher/kubectl:v1.21.9"
+	defaultKubectlImage            = "rancher/kubectl:v1.25.4"
 	defaultImagePullPolicy         = corev1.PullIfNotPresent
 	defaultTTLSecondsAfterFinished = int32(900)
 )
@@ -39,6 +40,17 @@ var (
 		}
 		return defaultValue
 	}(defaultActiveDeadlineSeconds)
+
+	ActiveDeadlineSecondsMax = func(defaultValue int64) int64 {
+		if str, ok := os.LookupEnv("SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS_MAX"); ok {
+			if i, err := strconv.ParseInt(str, 10, 64); err != nil {
+				logrus.Errorf("failed to parse $%s: %v", "SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS_MAX", err)
+			} else {
+				return i
+			}
+		}
+		return defaultValue
+	}(0 /* no maximum */)
 
 	BackoffLimit = func(defaultValue int32) int32 {
 		if str, ok := os.LookupEnv("SYSTEM_UPGRADE_JOB_BACKOFF_LIMIT"); ok {
@@ -240,12 +252,29 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 	// then we cordon/drain
 	cordon, drain := plan.Spec.Cordon, plan.Spec.Drain
 	if drain != nil {
-		args := []string{"drain", node.Name, "--pod-selector", `!` + upgradeapi.LabelController}
+		controllerRequirement, _ := labels.NewRequirement(upgradeapi.LabelController, selection.DoesNotExist, nil)
+		podSelector := labels.NewSelector().Add(*controllerRequirement)
+
+		if drain.PodSelector != nil {
+			if selector, err := metav1.LabelSelectorAsSelector(drain.PodSelector); err != nil {
+				logrus.Warnf("failed to convert Spec.Drain.PodSelector to selector: %v", err)
+			} else {
+				if requirements, ok := selector.Requirements(); !ok {
+					logrus.Warnf("Spec.Drain.PodSelector requirements are not selectable")
+				} else {
+					podSelector = podSelector.Add(requirements...)
+				}
+			}
+		}
+
+		args := []string{"drain", node.Name, "--pod-selector", podSelector.String()}
 		if drain.IgnoreDaemonSets == nil || *plan.Spec.Drain.IgnoreDaemonSets {
 			args = append(args, "--ignore-daemonsets")
 		}
-		if drain.DeleteLocalData == nil || *drain.DeleteLocalData {
-			args = append(args, "--delete-local-data")
+		if (drain.DeleteLocalData == nil || *drain.DeleteLocalData) && (drain.DeleteEmptydirData == nil || *drain.DeleteEmptydirData) {
+			//only available in kubectl version 1.20 or later
+			//was delete-local-data in prior versions
+			args = append(args, "--delete-emptydir-data")
 		}
 		if drain.Force {
 			args = append(args, "--force")
@@ -309,8 +338,20 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 		),
 	}
 
-	if ActiveDeadlineSeconds > 0 {
-		job.Spec.ActiveDeadlineSeconds = &ActiveDeadlineSeconds
+	activeDeadlineSeconds := ActiveDeadlineSeconds
+
+	if plan.Spec.JobActiveDeadlineSecs > 0 {
+		activeDeadlineSeconds = plan.Spec.JobActiveDeadlineSecs
+	}
+
+	// If configured with a maximum deadline via "SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS_MAX",
+	// clamp the Plan's given deadline to the maximum.
+	if ActiveDeadlineSecondsMax > 0 && activeDeadlineSeconds > ActiveDeadlineSecondsMax {
+		activeDeadlineSeconds = ActiveDeadlineSecondsMax
+	}
+
+	if activeDeadlineSeconds > 0 {
+		job.Spec.ActiveDeadlineSeconds = &activeDeadlineSeconds
 		if drain != nil && drain.Timeout != nil && drain.Timeout.Milliseconds() > ActiveDeadlineSeconds*1000 {
 			logrus.Warnf("drain timeout exceeds active deadline seconds")
 		}

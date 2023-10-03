@@ -27,4 +27,5 @@ ENTRYPOINT ["/run.sh"]
 FROM scratch AS controller
 ARG ARCH
 COPY dist/artifacts/system-upgrade-controller-${ARCH} /bin/system-upgrade-controller
+USER 65534:65534
 ENTRYPOINT ["/bin/system-upgrade-controller"]
