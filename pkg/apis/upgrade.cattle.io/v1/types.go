@@ -6,8 +6,8 @@ package v1
 import (
 	"time"
 
-	"github.com/rancher/system-upgrade-controller/pkg/apis/condition"
 	"github.com/rancher/wrangler/pkg/genericcondition"
+	"github.com/spectrocloud/system-upgrade-controller/pkg/apis/condition"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -41,10 +41,11 @@ type PlanSpec struct {
 
 	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 
-	Prepare *ContainerSpec `json:"prepare,omitempty"`
-	Cordon  bool           `json:"cordon,omitempty"`
-	Drain   *DrainSpec     `json:"drain,omitempty"`
-	Upgrade *ContainerSpec `json:"upgrade,omitempty" wrangler:"required"`
+	Prepare          *ContainerSpec                `json:"prepare,omitempty"`
+	Cordon           bool                          `json:"cordon,omitempty"`
+	Drain            *DrainSpec                    `json:"drain,omitempty"`
+	Upgrade          *ContainerSpec                `json:"upgrade,omitempty" wrangler:"required"`
+	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
 }
 
 // PlanStatus represents the resulting state from processing Plan events.

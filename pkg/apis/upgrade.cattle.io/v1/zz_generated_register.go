@@ -21,7 +21,7 @@ limitations under the License.
 package v1
 
 import (
-	upgrade "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io"
+	upgrade "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"

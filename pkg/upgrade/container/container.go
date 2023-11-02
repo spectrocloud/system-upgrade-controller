@@ -4,9 +4,9 @@ import (
 	"path/filepath"
 
 	"github.com/docker/distribution/reference"
-	upgradeapiv1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
 	"github.com/rancher/wrangler/pkg/name"
 	"github.com/sirupsen/logrus"
+	upgradeapiv1 "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
 	corev1 "k8s.io/api/core/v1"
 )
 

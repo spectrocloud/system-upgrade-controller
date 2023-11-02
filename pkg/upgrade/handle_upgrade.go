@@ -4,13 +4,13 @@ import (
 	"context"
 	"time"
 
-	upgradeapiv1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
-	upgradectlv1 "github.com/rancher/system-upgrade-controller/pkg/generated/controllers/upgrade.cattle.io/v1"
-	upgradejob "github.com/rancher/system-upgrade-controller/pkg/upgrade/job"
-	upgradenode "github.com/rancher/system-upgrade-controller/pkg/upgrade/node"
-	upgradeplan "github.com/rancher/system-upgrade-controller/pkg/upgrade/plan"
 	"github.com/rancher/wrangler/pkg/generic"
 	"github.com/sirupsen/logrus"
+	upgradeapiv1 "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
+	upgradectlv1 "github.com/spectrocloud/system-upgrade-controller/pkg/generated/controllers/upgrade.cattle.io/v1"
+	upgradejob "github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/job"
+	upgradenode "github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/node"
+	upgradeplan "github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/plan"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 

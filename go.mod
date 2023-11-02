@@ -1,13 +1,13 @@
-module github.com/rancher/system-upgrade-controller
+module github.com/spectrocloud/system-upgrade-controller
 
-go 1.19
+go 1.21
 
 require (
 	github.com/docker/distribution v2.8.1+incompatible
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/gomega v1.19.0
 	github.com/rancher/lasso v0.0.0-20210616224652-fc3ebd901c08
-	github.com/rancher/system-upgrade-controller/pkg/apis v0.0.0
+	github.com/spectrocloud/system-upgrade-controller/pkg/apis v0.0.0
 	github.com/rancher/wrangler v0.8.11
 	github.com/sirupsen/logrus v1.8.1
 	github.com/urfave/cli v1.22.2
@@ -108,7 +108,7 @@ require (
 
 replace (
 	github.com/docker/distribution => github.com/distribution/distribution v2.8.1+incompatible
-	github.com/rancher/system-upgrade-controller/pkg/apis => ./pkg/apis
+	github.com/spectrocloud/system-upgrade-controller/pkg/apis => ./pkg/apis
 	k8s.io/api => github.com/k3s-io/kubernetes/staging/src/k8s.io/api v1.24.6-k3s1
 	k8s.io/apiextensions-apiserver => github.com/k3s-io/kubernetes/staging/src/k8s.io/apiextensions-apiserver v1.24.6-k3s1
 	k8s.io/apimachinery => k8s.io/apimachinery v0.24.7-rc.0

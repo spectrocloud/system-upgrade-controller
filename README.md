@@ -43,13 +43,13 @@ _Additionally, one should take care when defining upgrades by ensuring that such
 
 The most up-to-date manifest is usually [manifests/system-upgrade-controller.yaml](manifests/system-upgrade-controller.yaml)
 but since release v0.4.0 a manifest specific to the release has been created and uploaded to the release artifacts page.
-See [releases/download/v0.4.0/system-upgrade-controller.yaml](https://github.com/rancher/system-upgrade-controller/releases/download/v0.4.0/system-upgrade-controller.yaml)
+See [releases/download/v0.4.0/system-upgrade-controller.yaml](https://github.com/spectrocloud/system-upgrade-controller/releases/download/v0.4.0/system-upgrade-controller.yaml)
 
 But in the time-honored tradition of `curl ${script} | sudo sh -` here is a nice one-liner:
 
 ```shell script
 # Y.O.L.O.
-kustomize build github.com/rancher/system-upgrade-controller | kubectl apply -f - 
+kustomize build github.com/spectrocloud/system-upgrade-controller | kubectl apply -f - 
 ```
 
 ### Example Plans

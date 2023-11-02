@@ -6,13 +6,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rancher/system-upgrade-controller/pkg/apis/condition"
-	upgradeapi "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io"
-	upgradeapiv1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
-	upgradectr "github.com/rancher/system-upgrade-controller/pkg/upgrade/container"
-	upgradenode "github.com/rancher/system-upgrade-controller/pkg/upgrade/node"
 	"github.com/rancher/wrangler/pkg/name"
 	"github.com/sirupsen/logrus"
+	"github.com/spectrocloud/system-upgrade-controller/pkg/apis/condition"
+	upgradeapi "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io"
+	upgradeapiv1 "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
+	upgradectr "github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/container"
+	upgradenode "github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/node"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -187,6 +187,7 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 							},
 						},
 					}},
+					ImagePullSecrets: plan.Spec.ImagePullSecrets,
 				},
 			},
 			Completions: new(int32),

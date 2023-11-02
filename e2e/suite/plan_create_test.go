@@ -1,8 +1,8 @@
 package suite_test
 
 import (
-	"github.com/rancher/system-upgrade-controller/e2e/framework"
-	upgradeapiv1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
+	"github.com/spectrocloud/system-upgrade-controller/e2e/framework"
+	upgradeapiv1 "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
 )
 
 var _ = Describe("Plan Creation", func() {

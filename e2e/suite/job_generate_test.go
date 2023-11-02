@@ -5,8 +5,8 @@ import (
 
 	batchv1 "k8s.io/api/batch/v1"
 
-	"github.com/rancher/system-upgrade-controller/e2e/framework"
-	upgradeapiv1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
+	"github.com/spectrocloud/system-upgrade-controller/e2e/framework"
+	upgradeapiv1 "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
