@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/rancher/wrangler/pkg/crd"
-	_ "github.com/spectrocloud/system-upgrade-controller/pkg/generated/controllers/upgrade.cattle.io/v1"
-	"github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/plan"
 	"os"
+
+	_ "github.com/rancher/system-upgrade-controller/pkg/generated/controllers/upgrade.cattle.io/v1"
+	"github.com/rancher/system-upgrade-controller/pkg/upgrade/plan"
+	"github.com/rancher/wrangler/pkg/crd"
 )
 
 func main() {

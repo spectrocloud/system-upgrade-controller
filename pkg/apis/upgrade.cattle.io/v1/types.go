@@ -6,8 +6,8 @@ package v1
 import (
 	"time"
 
+	"github.com/rancher/system-upgrade-controller/pkg/apis/condition"
 	"github.com/rancher/wrangler/pkg/genericcondition"
-	"github.com/spectrocloud/system-upgrade-controller/pkg/apis/condition"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

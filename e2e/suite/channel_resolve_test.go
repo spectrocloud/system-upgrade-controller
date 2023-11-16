@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/spectrocloud/system-upgrade-controller/e2e/framework"
-	upgradeapiv1 "github.com/spectrocloud/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
-	upgradeplan "github.com/spectrocloud/system-upgrade-controller/pkg/upgrade/plan"
+	"github.com/rancher/system-upgrade-controller/e2e/framework"
+	upgradeapiv1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
+	upgradeplan "github.com/rancher/system-upgrade-controller/pkg/upgrade/plan"
 )
 
 var _ = Describe("Resolve channel", func() {

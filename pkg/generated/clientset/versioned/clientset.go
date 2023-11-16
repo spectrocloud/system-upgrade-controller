@@ -21,7 +21,7 @@ package versioned
 import (
 	"fmt"
 
-	upgradev1 "github.com/spectrocloud/system-upgrade-controller/pkg/generated/clientset/versioned/typed/upgrade.cattle.io/v1"
+	upgradev1 "github.com/rancher/system-upgrade-controller/pkg/generated/clientset/versioned/typed/upgrade.cattle.io/v1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
