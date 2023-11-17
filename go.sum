@@ -607,6 +607,10 @@ github.com/smartystreets/goconvey v1.6.4/go.mod h1:syvi0/a8iFYH4r/RixwvyeAJjdLS9
 github.com/soheilhy/cmux v0.1.4/go.mod h1:IM3LyeVVIOuxMH7sFAkER9+bJ4dT7Ms6E4xg4kGIyLM=
 github.com/soheilhy/cmux v0.1.5/go.mod h1:T7TcVDs9LWfQgPlPsdngu6I6QIoyIFZDDC6sNE1GqG0=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=
+github.com/spectrocloud/system-upgrade-controller v0.10.1-0.20231117202627-cb384cf3effe h1:DQzfM7bL/vgm8sxNsUyXxcCFL7VowyaynKMwpAcxo0M=
+github.com/spectrocloud/system-upgrade-controller v0.10.1-0.20231117202627-cb384cf3effe/go.mod h1:gi217Pl3rW6Kun8zwlUA+EqZY2Vs6Bw7lFzbKfJgy5g=
+github.com/spectrocloud/system-upgrade-controller/pkg/apis v0.0.0-20231116190709-8bc37d4ec2d7 h1:lN2beN0OJw9M4oEQkngtc9V0YqErs2tDYaT++kXjvxQ=
+github.com/spectrocloud/system-upgrade-controller/pkg/apis v0.0.0-20231116190709-8bc37d4ec2d7/go.mod h1:pN8C+jYHpqk/77ZcJyW+Mi25rOxmNXrWjfmCtBixaHk=
 github.com/spf13/afero v1.1.2/go.mod h1:j4pytiNVoe2o6bmDsKpLACNPDBIoEAkihy7loJ1B0CQ=
 github.com/spf13/afero v1.2.2/go.mod h1:9ZxEEn6pIJ8Rxe320qSDBk6AsU0r9pR7Q4OcevTdifk=
 github.com/spf13/afero v1.6.0/go.mod h1:Ai8FlHk4v/PARR026UzYexafAt9roJ7LcLMAmO6Z93I=

@@ -109,8 +109,8 @@ require (
 
 replace (
 	github.com/docker/distribution => github.com/distribution/distribution v2.8.1+incompatible
-	github.com/rancher/system-upgrade-controller => ./
-	github.com/rancher/system-upgrade-controller/pkg/apis => ./pkg/apis
+	github.com/rancher/system-upgrade-controller => github.com/spectrocloud/system-upgrade-controller v0.10.1-0.20231117202627-cb384cf3effe
+	github.com/rancher/system-upgrade-controller/pkg/apis => github.com/spectrocloud/system-upgrade-controller/pkg/apis v0.0.0-20231116190709-8bc37d4ec2d7
 	k8s.io/api => github.com/k3s-io/kubernetes/staging/src/k8s.io/api v1.24.6-k3s1
 	k8s.io/apiextensions-apiserver => github.com/k3s-io/kubernetes/staging/src/k8s.io/apiextensions-apiserver v1.24.6-k3s1
 	k8s.io/apimachinery => k8s.io/apimachinery v0.24.7-rc.0
