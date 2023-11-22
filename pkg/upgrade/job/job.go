@@ -196,6 +196,8 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 		},
 	}
 
+	job.Spec.Template.Spec.Volumes = append(job.Spec.Template.Spec.Volumes, plan.Spec.Volumes...)
+
 	if val, ok := plan.Annotations["spectrocloud.com/job-priority-class"]; ok {
 		job.Spec.Template.Spec.PriorityClassName = val
 	}

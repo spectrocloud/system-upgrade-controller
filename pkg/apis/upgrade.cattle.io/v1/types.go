@@ -46,6 +46,7 @@ type PlanSpec struct {
 	Drain            *DrainSpec                    `json:"drain,omitempty"`
 	Upgrade          *ContainerSpec                `json:"upgrade,omitempty" wrangler:"required"`
 	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
+	Volumes          []corev1.Volume               `json:"volumes,omitempty"`
 }
 
 // PlanStatus represents the resulting state from processing Plan events.
