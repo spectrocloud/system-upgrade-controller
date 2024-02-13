@@ -1,8 +1,9 @@
 module github.com/spectrocloud/system-upgrade-controller/pkg/apis
 
-go 1.20
+go 1.21
 
 require (
+	github.com/rancher/system-upgrade-controller/pkg/apis v0.0.0-20231127235244-af373602d649
 	github.com/rancher/wrangler v1.1.1-0.20230425173236-39a4707f0689
 	github.com/sirupsen/logrus v1.9.0
 	k8s.io/api v0.25.12
