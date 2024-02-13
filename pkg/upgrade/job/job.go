@@ -22,7 +22,7 @@ import (
 
 const (
 	defaultBackoffLimit            = int32(2)
-	defaultActiveDeadlineSeconds   = int64(600)
+	defaultActiveDeadlineSeconds   = int64(0)
 	defaultPrivileged              = true
 	defaultKubectlImage            = "rancher/kubectl:v1.25.4"
 	defaultImagePullPolicy         = corev1.PullIfNotPresent
@@ -153,6 +153,7 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 						upgradeapi.LabelVersion:    plan.Status.LatestVersion,
 						labelPlanName:              plan.Status.LatestHash,
 					},
+					Annotations: labels.Set{},
 				},
 				Spec: corev1.PodSpec{
 					HostIPC:            true,
@@ -221,6 +222,20 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 			Completions: new(int32),
 			Parallelism: new(int32),
 		},
+	}
+
+	if val, ok := plan.Annotations["spectrocloud.com/job-priority-class"]; ok {
+		job.Spec.Template.Spec.PriorityClassName = val
+	}
+
+	for k, v := range plan.Labels {
+		job.Labels[k] = v
+		job.Spec.Template.ObjectMeta.Labels[k] = v
+	}
+
+	for k, v := range plan.Annotations {
+		job.Annotations[k] = v
+		job.Spec.Template.ObjectMeta.Annotations[k] = v
 	}
 
 	*job.Spec.Completions = 1

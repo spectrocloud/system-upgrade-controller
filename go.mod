@@ -1,6 +1,6 @@
-module github.com/rancher/system-upgrade-controller
+module github.com/spectrocloud/system-upgrade-controller
 
-go 1.20
+go 1.21
 
 require (
 	github.com/docker/distribution v2.8.2+incompatible

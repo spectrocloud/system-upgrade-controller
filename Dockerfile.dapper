@@ -21,7 +21,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins; \
     curl -o /usr/local/lib/docker/cli-plugins/docker-buildx -fsSL "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.linux-${ARCH}"; \
     chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
 ENV DAPPER_ENV REPO TAG DRONE_TAG
-ENV DAPPER_SOURCE /go/src/github.com/rancher/system-upgrade-controller/
+ENV DAPPER_SOURCE /go/src/github.com/spectrocloud/system-upgrade-controller/
 ENV DAPPER_OUTPUT ./bin ./dist
 ENV DAPPER_DOCKER_SOCKET true
 ENV DAPPER_RUN_ARGS "-v suc-pkg:/go/pkg -v suc-cache:/root/.cache/go-build"
