@@ -13,7 +13,7 @@ IMG_PATH ?= gcr.io/spectro-dev-public/release
 ifeq ($(FIPS_ENABLE),yes)
 	IMG_PATH = gcr.io/spectro-dev-public/release-fips
 endif
-IMG_TAG ?= v0.11.4_spectro
+IMG_TAG ?= v0.13.2_spectro
 IMG_SERVICE_URL ?= ${IMG_PATH}/
 SUC_IMG ?= ${IMG_SERVICE_URL}system-upgrade-controller:${IMG_TAG}
 
