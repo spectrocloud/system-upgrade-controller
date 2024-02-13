@@ -3,8 +3,13 @@ package job_test
 import (
 	"testing"
 
-	"github.com/onsi/ginkgo"
-	"github.com/onsi/gomega"
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+
+	upgradev1 "github.com/rancher/system-upgrade-controller/pkg/apis/upgrade.cattle.io/v1"
+	sucjob "github.com/rancher/system-upgrade-controller/pkg/upgrade/job"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestJob(t *testing.T) {
@@ -12,113 +17,75 @@ func TestJob(t *testing.T) {
 	RunSpecs(t, "Job Suite")
 }
 
-// Declarations for Ginkgo DSL
-type Done ginkgo.Done
-type Benchmarker ginkgo.Benchmarker
+var _ = Describe("Jobs", func() {
+	var plan *upgradev1.Plan
+	var node *corev1.Node
 
-var GinkgoWriter = ginkgo.GinkgoWriter
-var GinkgoRandomSeed = ginkgo.GinkgoRandomSeed
-var GinkgoParallelNode = ginkgo.GinkgoParallelNode
-var GinkgoT = ginkgo.GinkgoT
-var CurrentGinkgoTestDescription = ginkgo.CurrentGinkgoTestDescription
-var RunSpecs = ginkgo.RunSpecs
-var RunSpecsWithDefaultAndCustomReporters = ginkgo.RunSpecsWithDefaultAndCustomReporters
-var RunSpecsWithCustomReporters = ginkgo.RunSpecsWithCustomReporters
-var Skip = ginkgo.Skip
-var Fail = ginkgo.Fail
-var GinkgoRecover = ginkgo.GinkgoRecover
-var Describe = ginkgo.Describe
-var FDescribe = ginkgo.FDescribe
-var PDescribe = ginkgo.PDescribe
-var XDescribe = ginkgo.XDescribe
-var Context = ginkgo.Context
-var FContext = ginkgo.FContext
-var PContext = ginkgo.PContext
-var XContext = ginkgo.XContext
-var When = ginkgo.When
-var FWhen = ginkgo.FWhen
-var PWhen = ginkgo.PWhen
-var XWhen = ginkgo.XWhen
-var It = ginkgo.It
-var FIt = ginkgo.FIt
-var PIt = ginkgo.PIt
-var XIt = ginkgo.XIt
-var Specify = ginkgo.Specify
-var FSpecify = ginkgo.FSpecify
-var PSpecify = ginkgo.PSpecify
-var XSpecify = ginkgo.XSpecify
-var By = ginkgo.By
-var Measure = ginkgo.Measure
-var FMeasure = ginkgo.FMeasure
-var PMeasure = ginkgo.PMeasure
-var XMeasure = ginkgo.XMeasure
-var BeforeSuite = ginkgo.BeforeSuite
-var AfterSuite = ginkgo.AfterSuite
-var SynchronizedBeforeSuite = ginkgo.SynchronizedBeforeSuite
-var SynchronizedAfterSuite = ginkgo.SynchronizedAfterSuite
-var BeforeEach = ginkgo.BeforeEach
-var JustBeforeEach = ginkgo.JustBeforeEach
-var JustAfterEach = ginkgo.JustAfterEach
-var AfterEach = ginkgo.AfterEach
+	BeforeEach(func() {
+		plan = &upgradev1.Plan{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "test-1",
+				Namespace: "default",
+			},
+			Spec: upgradev1.PlanSpec{
+				Concurrency:        1,
+				ServiceAccountName: "system-upgrade-controller-foo",
+				Upgrade: &upgradev1.ContainerSpec{
+					Image: "test-image:latest",
+				},
+			},
+		}
 
-// Declarations for Gomega DSL
-var RegisterFailHandler = gomega.RegisterFailHandler
-var RegisterFailHandlerWithT = gomega.RegisterFailHandlerWithT
-var RegisterTestingT = gomega.RegisterTestingT
-var InterceptGomegaFailures = gomega.InterceptGomegaFailures
-var Ω = gomega.Ω
-var Expect = gomega.Expect
-var ExpectWithOffset = gomega.ExpectWithOffset
-var Eventually = gomega.Eventually
-var EventuallyWithOffset = gomega.EventuallyWithOffset
-var Consistently = gomega.Consistently
-var ConsistentlyWithOffset = gomega.ConsistentlyWithOffset
-var SetDefaultEventuallyTimeout = gomega.SetDefaultEventuallyTimeout
-var SetDefaultEventuallyPollingInterval = gomega.SetDefaultEventuallyPollingInterval
-var SetDefaultConsistentlyDuration = gomega.SetDefaultConsistentlyDuration
-var SetDefaultConsistentlyPollingInterval = gomega.SetDefaultConsistentlyPollingInterval
-var NewWithT = gomega.NewWithT
-var NewGomegaWithT = gomega.NewGomegaWithT
+		node = &corev1.Node{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "prod.test.local",
+			},
+		}
+	})
 
-// Declarations for Gomega Matchers
-var Equal = gomega.Equal
-var BeEquivalentTo = gomega.BeEquivalentTo
-var BeIdenticalTo = gomega.BeIdenticalTo
-var BeNil = gomega.BeNil
-var BeTrue = gomega.BeTrue
-var BeFalse = gomega.BeFalse
-var HaveOccurred = gomega.HaveOccurred
-var Succeed = gomega.Succeed
-var MatchError = gomega.MatchError
-var BeClosed = gomega.BeClosed
-var Receive = gomega.Receive
-var BeSent = gomega.BeSent
-var MatchRegexp = gomega.MatchRegexp
-var ContainSubstring = gomega.ContainSubstring
-var HavePrefix = gomega.HavePrefix
-var HaveSuffix = gomega.HaveSuffix
-var MatchJSON = gomega.MatchJSON
-var MatchXML = gomega.MatchXML
-var MatchYAML = gomega.MatchYAML
-var BeEmpty = gomega.BeEmpty
-var HaveLen = gomega.HaveLen
-var HaveCap = gomega.HaveCap
-var BeZero = gomega.BeZero
-var ContainElement = gomega.ContainElement
-var BeElementOf = gomega.BeElementOf
-var ConsistOf = gomega.ConsistOf
-var HaveKey = gomega.HaveKey
-var HaveKeyWithValue = gomega.HaveKeyWithValue
-var BeNumerically = gomega.BeNumerically
-var BeTemporally = gomega.BeTemporally
-var BeAssignableToTypeOf = gomega.BeAssignableToTypeOf
-var Panic = gomega.Panic
-var BeAnExistingFile = gomega.BeAnExistingFile
-var BeARegularFile = gomega.BeARegularFile
-var BeADirectory = gomega.BeADirectory
-var And = gomega.And
-var SatisfyAll = gomega.SatisfyAll
-var Or = gomega.Or
-var SatisfyAny = gomega.SatisfyAny
-var Not = gomega.Not
-var WithTransform = gomega.WithTransform
+	Describe("Setting the batchv1.Job ActiveDeadlineSeconds field", func() {
+		Context("When the Plan has a positive non-zero value for deadline", func() {
+			It("Constructs the batchv1.Job with the Plan's given value", func() {
+				plan.Spec.JobActiveDeadlineSecs = 12345
+				job := sucjob.New(plan, node, "foo")
+				Expect(*job.Spec.ActiveDeadlineSeconds).To(Equal(int64(12345)))
+			})
+		})
+
+		Context("When the Plan has a zero-value given as its deadline", func() {
+			It("Constructs the batchv1.Job with a global default", func() {
+				oldActiveDeadlineSeconds := sucjob.ActiveDeadlineSeconds
+				sucjob.ActiveDeadlineSeconds = 300
+				defer func() { sucjob.ActiveDeadlineSeconds = oldActiveDeadlineSeconds }()
+
+				plan.Spec.JobActiveDeadlineSecs = 0
+				job := sucjob.New(plan, node, "bar")
+				Expect(*job.Spec.ActiveDeadlineSeconds).To(Equal(int64(300)))
+			})
+		})
+
+		Context("When the Plan has a negative value given as its deadline", func() {
+			It("Constructs the batchv1.Job with a global default", func() {
+				oldActiveDeadlineSeconds := sucjob.ActiveDeadlineSeconds
+				sucjob.ActiveDeadlineSeconds = 3600
+				defer func() { sucjob.ActiveDeadlineSeconds = oldActiveDeadlineSeconds }()
+
+				plan.Spec.JobActiveDeadlineSecs = -1
+				job := sucjob.New(plan, node, "baz")
+				Expect(*job.Spec.ActiveDeadlineSeconds).To(Equal(int64(3600)))
+			})
+		})
+
+		Context("When cluster has a maximum deadline and the Plan deadline exceeds that value", func() {
+			It("Constructs the batchv1.Job with the cluster's maximum deadline value", func() {
+				oldActiveDeadlineSecondsMax := sucjob.ActiveDeadlineSecondsMax
+				sucjob.ActiveDeadlineSecondsMax = 300
+				defer func() { sucjob.ActiveDeadlineSecondsMax = oldActiveDeadlineSecondsMax }()
+
+				plan.Spec.JobActiveDeadlineSecs = 600
+				job := sucjob.New(plan, node, "foobar")
+				Expect(*job.Spec.ActiveDeadlineSeconds).To(Equal(int64(300)))
+			})
+		})
+	})
+})

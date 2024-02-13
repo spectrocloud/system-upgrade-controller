@@ -62,6 +62,11 @@ func (in *ContainerSpec) DeepCopyInto(out *ContainerSpec) {
 		*out = make([]VolumeSpec, len(*in))
 		copy(*out, *in)
 	}
+	if in.SecurityContext != nil {
+		in, out := &in.SecurityContext, &out.SecurityContext
+		*out = new(corev1.SecurityContext)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 
@@ -93,10 +98,20 @@ func (in *DrainSpec) DeepCopyInto(out *DrainSpec) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeleteEmptydirData != nil {
+		in, out := &in.DeleteEmptydirData, &out.DeleteEmptydirData
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IgnoreDaemonSets != nil {
 		in, out := &in.IgnoreDaemonSets, &out.IgnoreDaemonSets
 		*out = new(bool)
 		**out = **in
+	}
+	if in.PodSelector != nil {
+		in, out := &in.PodSelector, &out.PodSelector
+		*out = new(metav1.LabelSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	return
 }
