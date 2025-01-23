@@ -2,11 +2,6 @@ name: release
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Tag to release"
-        required: true
-        default: ""
 
 permissions:
   contents: write
@@ -26,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ inputs.tag }}
+          ref: ${{ github.ref }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
         with:
@@ -38,7 +33,7 @@ jobs:
       - name: Build artifacts
         env:
           FIPS_ENABLE: ${{ matrix.fips }}
-          IMG_TAG: ${{ inputs.tag }}
+          IMG_TAG: ${{ github.ref_name }}
         run: |
           if [ ${{ matrix.fips }} = "yes" ]; then
             export IMG_PATH=us-docker.pkg.dev/palette-images-fips/edge
