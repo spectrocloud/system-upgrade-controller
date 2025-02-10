@@ -62,6 +62,7 @@ func (in *ContainerSpec) DeepCopyInto(out *ContainerSpec) {
 		*out = make([]VolumeSpec, len(*in))
 		copy(*out, *in)
 	}
+	in.Resources.DeepCopyInto(&out.Resources)
 	return
 }
 
