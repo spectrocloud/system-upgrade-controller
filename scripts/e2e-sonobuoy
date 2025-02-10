@@ -12,7 +12,7 @@ export ARCH COMMIT DIST REPO TAG VERSION E2E_CLUSTER=${E2E_CLUSTER:=local} KUBEC
 export PATH="$PWD/e2e/cluster/${E2E_CLUSTER}/scripts:$PATH"
 
 e2e-sonobuoy-run() {
-  : ${SONOBUOY_RUN_SONOBUOY_IMAGE:="sonobuoy/sonobuoy:v0.56.2"}
+  : ${SONOBUOY_RUN_SONOBUOY_IMAGE:="sonobuoy/sonobuoy:v0.56.16"}
   : ${SONOBUOY_RUN_IMAGE_PULL_POLICY:=Never}
   : ${SONOBUOY_RUN_WAIT:=10}
 
@@ -22,6 +22,7 @@ e2e-sonobuoy-run() {
     --sonobuoy-image=${SONOBUOY_RUN_SONOBUOY_IMAGE} \
     --wait=${SONOBUOY_RUN_WAIT}
   mv -vf $(sonobuoy retrieve) ${DIST}/sonobuoy-results-${ARCH}.tar.gz
+  sonobuoy results --mode=dump ${DIST}/sonobuoy-results-${ARCH}.tar.gz
   sonobuoy results ${DIST}/sonobuoy-results-${ARCH}.tar.gz | tee ${DIST}/../sonobuoy-results-${ARCH}.txt
 }
 export -f e2e-sonobuoy-run
