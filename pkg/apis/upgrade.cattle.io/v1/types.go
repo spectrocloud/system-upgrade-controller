@@ -57,12 +57,13 @@ type PlanStatus struct {
 
 // ContainerSpec is a simplified container template.
 type ContainerSpec struct {
-	Image   string                 `json:"image,omitempty"`
-	Command []string               `json:"command,omitempty"`
-	Args    []string               `json:"args,omitempty"`
-	Env     []corev1.EnvVar        `json:"envs,omitempty"`
-	EnvFrom []corev1.EnvFromSource `json:"envFrom,omitempty"`
-	Volumes []VolumeSpec           `json:"volumes,omitempty"`
+	Image     string                      `json:"image,omitempty"`
+	Command   []string                    `json:"command,omitempty"`
+	Args      []string                    `json:"args,omitempty"`
+	Env       []corev1.EnvVar             `json:"envs,omitempty"`
+	EnvFrom   []corev1.EnvFromSource      `json:"envFrom,omitempty"`
+	Volumes   []VolumeSpec                `json:"volumes,omitempty"`
+	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
 type VolumeSpec struct {
