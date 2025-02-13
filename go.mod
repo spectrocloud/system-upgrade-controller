@@ -96,6 +96,7 @@ require (
 	k8s.io/component-base v0.25.12 // indirect
 	k8s.io/component-helpers v0.25.12 // indirect
 	k8s.io/gengo v0.0.0-20211129171323-c02415ce4185 // indirect
+	k8s.io/klog v1.0.0
 	k8s.io/klog/v2 v2.80.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20230109183929-3758b55a6596 // indirect
 	k8s.io/kubelet v0.25.12 // indirect

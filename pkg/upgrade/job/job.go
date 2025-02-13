@@ -1,6 +1,7 @@
 package job
 
 import (
+	"fmt"
 	"os"
 	"sort"
 	"strconv"
@@ -18,6 +19,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/selection"
+	"k8s.io/klog"
 )
 
 const (
@@ -275,12 +277,25 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 				if requirements, ok := selector.Requirements(); !ok {
 					logrus.Warnf("Spec.Drain.PodSelector requirements are not selectable")
 				} else {
-					podSelector = podSelector.Add(requirements...)
+					// Convert NotIn operator to NotEquals when there's a single value
+					for _, req := range requirements {
+						if req.Operator() == selection.NotIn && len(req.Values().List()) == 1 {
+							notEqualsReq, err := labels.NewRequirement(req.Key(), selection.NotEquals, req.Values().List())
+							if err == nil {
+								podSelector = podSelector.Add(*notEqualsReq)
+							} else {
+								podSelector = podSelector.Add(req)
+							}
+						} else {
+							podSelector = podSelector.Add(req)
+						}
+					}
 				}
 			}
 		}
 
-		args := []string{"drain", node.Name, "--pod-selector", podSelector.String()}
+		args := []string{"drain", node.Name, "--pod-selector", fmt.Sprintf("'%s'", podSelector.String())}
+		klog.Infof("drain args: +v", args)
 		if drain.IgnoreDaemonSets == nil || *plan.Spec.Drain.IgnoreDaemonSets {
 			args = append(args, "--ignore-daemonsets")
 		}
