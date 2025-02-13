@@ -18,6 +18,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/selection"
+	"k8s.io/klog"
 )
 
 const (
@@ -280,7 +281,10 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 			}
 		}
 
-		args := []string{"drain", node.Name, "--pod-selector", podSelector.String()}
+		//args := []string{"drain", node.Name, "--pod-selector", podSelector.String()}
+		args := []string{"drain", node.Name, "--pod-selector", fmt.Sprintf("'%s'", podSelector.String())}
+
+		klog.Infof("drain args: %+v", args)
 		if drain.IgnoreDaemonSets == nil || *plan.Spec.Drain.IgnoreDaemonSets {
 			args = append(args, "--ignore-daemonsets")
 		}
