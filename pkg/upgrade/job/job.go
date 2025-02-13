@@ -1,6 +1,7 @@
 package job
 
 import (
+	"fmt"
 	"os"
 	"sort"
 	"strconv"
@@ -280,7 +281,9 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 			}
 		}
 
-		args := []string{"drain", node.Name, "--pod-selector", podSelector.String()}
+		//args := []string{"drain", node.Name, "--pod-selector", podSelector.String()}
+
+		args := []string{"drain", node.Name, "--pod-selector", fmt.Sprintf("!%s,kubevirt.io!=hotplug-disk", upgradeapi.LabelController)}
 		if drain.IgnoreDaemonSets == nil || *plan.Spec.Drain.IgnoreDaemonSets {
 			args = append(args, "--ignore-daemonsets")
 		}
