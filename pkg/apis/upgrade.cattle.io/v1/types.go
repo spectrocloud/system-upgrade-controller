@@ -64,6 +64,7 @@ type ContainerSpec struct {
 	Env     []corev1.EnvVar        `json:"envs,omitempty"`
 	EnvFrom []corev1.EnvFromSource `json:"envFrom,omitempty"`
 	Volumes []VolumeSpec           `json:"volumes,omitempty"`
+	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
 type VolumeSpec struct {
