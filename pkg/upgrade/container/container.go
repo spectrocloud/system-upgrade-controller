@@ -43,6 +43,12 @@ func WithImagePullPolicy(pullPolicy corev1.PullPolicy) Option {
 	}
 }
 
+func WithResources(resources corev1.ResourceRequirements) Option {
+	return func(container *corev1.Container) {
+		container.Resources = resources
+	}
+}
+
 func WithLatestTag(tag string) Option {
 	return func(container *corev1.Container) {
 		ref, err := reference.ParseNormalizedNamed(container.Image)

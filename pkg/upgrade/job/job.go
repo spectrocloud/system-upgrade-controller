@@ -250,6 +250,7 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 				upgradectr.WithPlanEnvironment(plan.Name, plan.Status),
 				upgradectr.WithImagePullPolicy(ImagePullPolicy),
 				upgradectr.WithVolumes(plan.Spec.Upgrade.Volumes),
+				upgradectr.WithResources(plan.Spec.Prepare.Resources),
 				upgradectr.WithSecurityContext(&corev1.SecurityContext{
 					Privileged: &Privileged,
 					Capabilities: &corev1.Capabilities{
@@ -359,6 +360,7 @@ func New(plan *upgradeapiv1.Plan, node *corev1.Node, controllerName string) *bat
 			upgradectr.WithPlanEnvironment(plan.Name, plan.Status),
 			upgradectr.WithImagePullPolicy(ImagePullPolicy),
 			upgradectr.WithVolumes(plan.Spec.Upgrade.Volumes),
+			upgradectr.WithResources(plan.Spec.Upgrade.Resources),
 		),
 	}
 
