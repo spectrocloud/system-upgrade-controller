@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/rancher/system-upgrade-controller/pkg/apis/condition"
-	"github.com/rancher/wrangler/pkg/genericcondition"
+	"github.com/rancher/wrangler/v3/pkg/genericcondition"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -58,12 +58,12 @@ type PlanStatus struct {
 
 // ContainerSpec is a simplified container template.
 type ContainerSpec struct {
-	Image   string                 `json:"image,omitempty"`
-	Command []string               `json:"command,omitempty"`
-	Args    []string               `json:"args,omitempty"`
-	Env     []corev1.EnvVar        `json:"envs,omitempty"`
-	EnvFrom []corev1.EnvFromSource `json:"envFrom,omitempty"`
-	Volumes []VolumeSpec           `json:"volumes,omitempty"`
+	Image     string                      `json:"image,omitempty"`
+	Command   []string                    `json:"command,omitempty"`
+	Args      []string                    `json:"args,omitempty"`
+	Env       []corev1.EnvVar             `json:"envs,omitempty"`
+	EnvFrom   []corev1.EnvFromSource      `json:"envFrom,omitempty"`
+	Volumes   []VolumeSpec                `json:"volumes,omitempty"`
 	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
