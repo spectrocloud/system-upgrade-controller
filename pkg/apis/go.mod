@@ -6,7 +6,7 @@ toolchain go1.23.2
 
 require (
 	github.com/rancher/system-upgrade-controller/pkg/apis v0.0.0-20250128014425-98381a657c80
-	github.com/rancher/wrangler v0.8.5
+	github.com/rancher/wrangler/v3 v3.1.0
 	github.com/sirupsen/logrus v1.9.3
 	k8s.io/api v0.31.1
 	k8s.io/apimachinery v0.31.1
